@@ -1,40 +1,40 @@
 <template>
-<div class="container">
-  <div class="row" v-for="(item, index) in comment" :key="index">
-    <SingleComment
+  <div class="container">
+    <div class="row" v-for="(item, index) in comment" :key="index">
+      <SingleComment
         :nameInForum="item.owner.name_in_forum"
         :userID="item.owner.id"
         :avatarID="item.owner.avatar_id"
         :content="item.content"
         :indexInCmtList="index"
         @delete-comment="deleteComment"
-    />
-  </div>
+      />
+    </div>
 
-  <div class="row">
-    <div class="d-flex mb-3 reply">
-      <a href="#" style="margin-right: 0.5em">
-        <img class="comment-avatar avt" :src="avtURL()" alt="avatar">
-      </a>
-      <input
+    <div class="row">
+      <div class="d-flex mb-3 reply">
+        <a href="#" style="margin-right: 0.5em">
+          <img class="comment-avatar avt" :src="avtURL()" alt="avatar" />
+        </a>
+        <input
           type="text"
           v-model.trim="reply"
           class="reply-text"
           placeholder="Leave a comment..."
           required
           @keyup.enter="submitComment"
-      />
+        />
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
-import SingleComment from "./SingleComment";
-import {avatarURL} from "@/infrastructure/apiServices";
+import SingleComment from './SingleComment.vue'
+import { avatarURL } from '../../infrastructure/apiServices'
 export default {
-  name: "Comments",
-  components: {SingleComment},
+  name: 'Comments',
+  components: { SingleComment },
   props: {
     comment: {
       type: Array,
@@ -70,7 +70,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 //div, div > * {
 //  border: 1px black solid;
 //}
@@ -81,7 +80,7 @@ export default {
 
 .reply {
   align-items: center;
-  background-color: #EBEBEB;
+  background-color: #ebebeb;
   border-radius: 30px;
   padding: 5px 10px;
   //overflow: hidden;
@@ -107,6 +106,4 @@ export default {
 img {
   aspect-ratio: 1/1;
 }
-
-
 </style>

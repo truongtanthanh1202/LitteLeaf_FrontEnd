@@ -1,17 +1,17 @@
 <template>
   <router-link class="room" :to="`/room/${roomId}`">
-    <img class="room-img" :src="roomImgLink" alt="room-img">
+    <img class="room-img" :src="roomImgLink" alt="room-img" />
     <div class="room-name">{{ roomName }}</div>
   </router-link>
 </template>
 
 <script>
 export default {
-  name: "RoomButton",
+  name: 'RoomButton',
   props: ['roomName', 'roomId'],
   data() {
     return {
-      roomImgLink: require(`@/assets/images/rooms/${this.roomName}.jpg`)
+      roomImgLink: require(`../../assets/images/rooms/${this.roomName}.jpg`)
     }
   }
 }
@@ -23,7 +23,15 @@ export default {
   margin-top: 1rem;
   text-decoration: none;
   color: black;
-  text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 0.5px 0.5px #fff, -0.5px -0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px 0.5px 0 #fff;
+  text-shadow:
+    1px 0 0 #fff,
+    -1px 0 0 #fff,
+    0 1px 0 #fff,
+    0 -1px 0 #fff,
+    0.5px 0.5px #fff,
+    -0.5px -0.5px 0 #fff,
+    0.5px -0.5px 0 #fff,
+    -0.5px 0.5px 0 #fff;
   font-weight: bold;
 }
 

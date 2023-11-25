@@ -3,29 +3,41 @@
     <nav :style="{ background: bgColor }">
       <i id="menu" class="fas fa-bars" @click="toggleSidebar"></i>
       <router-link to="/" id="logo-title">
-        <img id="logo" src="@/assets/images/icons/4room.png" alt="logo">
+        <img id="logo" src="../../assets/images/icons/4room.png" alt="logo" />
         <div id="title">4Room</div>
       </router-link>
 
       <div id="search-space">
         <div id="search-box">
           <i class="search-icon fas fa-search"></i>
-          <input class="search-bar" placeholder="Search" type="text"  v-model="nameInForum">
-          <UserList :usersInfo="usersInfo" style="position: absolute;top: 2.5rem"/>
+          <input class="search-bar" placeholder="Search" type="text" v-model="nameInForum" />
+          <UserList :usersInfo="usersInfo" style="position: absolute; top: 2.5rem" />
         </div>
       </div>
 
-      <Notification/>
+      <Notification />
 
       <div class="dropdown dropstart">
-        <a data-toggle="dropdown" href="#"  data-bs-toggle="dropdown"  aria-expanded="false">
-          <img class="avt" id="avatar" :src="avtURL()" alt="avatar">
+        <a data-toggle="dropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+          <img class="avt" id="avatar" :src="avtURL()" alt="avatar" />
         </a>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <li><router-link class="dropdown-item" to="/profile"><i class="fas fa-user"></i>Profile</router-link></li>
-          <li><router-link class="dropdown-item" to="/change-password"><i class="fas fa-key"></i>Change Password</router-link></li>
-          <li style="cursor: pointer;"><div class="dropdown-item" @click="logout"><i class="fas fa-sign-out-alt"></i>Logout</div></li>
+          <li>
+            <router-link class="dropdown-item" to="/profile"
+              ><i class="fas fa-user"></i>Profile</router-link
+            >
+          </li>
+          <li>
+            <router-link class="dropdown-item" to="/change-password"
+              ><i class="fas fa-key"></i>Change Password</router-link
+            >
+          </li>
+          <li style="cursor: pointer">
+            <div class="dropdown-item" @click="logout">
+              <i class="fas fa-sign-out-alt"></i>Logout
+            </div>
+          </li>
         </ul>
       </div>
     </nav>
@@ -33,16 +45,16 @@
 </template>
 
 <script>
-import {authApi} from "@/infrastructure/apiServices";
-import {profileApi} from "../../infrastructure/apiServices";
-import UserList from "../element/UserList";
-import Notification from "./Notification";
-import {avatarURL} from "../../infrastructure/apiServices";
-import {mapMutations} from "vuex";
+import { authApi } from '../../infrastructure/apiServices'
+import { profileApi } from '../../infrastructure/apiServices'
+import UserList from '../element/UserList.vue'
+import Notification from './Notification.vue'
+import { avatarURL } from '../../infrastructure/apiServices'
+import { mapMutations } from 'vuex'
 
 export default {
-  name: "NavBar",
-  components: {Notification, UserList},
+  name: 'NavBar',
+  components: { Notification, UserList },
   props: ['bgColor'],
 
   data() {
@@ -56,12 +68,14 @@ export default {
     ...mapMutations(['toggleSidebar']),
 
     logout() {
-      authApi.logout().then(() => {
-        localStorage.removeItem('jwt');
-        localStorage.removeItem('user_info');
-        location.assign('/login');
-      })
-      .catch(err => console.log(err.response.data.message, err))
+      authApi
+        .logout()
+        .then(() => {
+          localStorage.removeItem('jwt')
+          localStorage.removeItem('user_info')
+          location.assign('/login')
+        })
+        .catch((err) => console.log(err.response.data.message, err))
     },
 
     avtURL() {
@@ -73,14 +87,14 @@ export default {
   watch: {
     nameInForum() {
       if (this.nameInForum !== '')
-        profileApi.searchUserByName(this.nameInForum)
-            .then(response => {
-              this.usersInfo = response.data['data'];
-              console.log(this.usersInfo[0]);
-            })
-            .catch(err => console.log(err))
-      else
-        this.usersInfo = [];
+        profileApi
+          .searchUserByName(this.nameInForum)
+          .then((response) => {
+            this.usersInfo = response.data['data']
+            console.log(this.usersInfo[0])
+          })
+          .catch((err) => console.log(err))
+      else this.usersInfo = []
     }
   }
 }
@@ -120,7 +134,15 @@ nav {
       font-weight: 800;
       margin-left: 1rem;
       color: #f5f3f3;
-      text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+      text-shadow:
+        2px 0 0 #000,
+        -2px 0 0 #000,
+        0 2px 0 #000,
+        0 -2px 0 #000,
+        1px 1px #000,
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000;
     }
   }
 
@@ -188,5 +210,4 @@ nav {
 img {
   aspect-ratio: 1/1;
 }
-
 </style>
