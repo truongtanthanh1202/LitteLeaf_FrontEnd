@@ -1,29 +1,17 @@
 <template>
   <div id="notifications" class="dropdown dropstart">
-    <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+    <a  href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="fas fa-bell" @click="getNotifications"></i>
     </a>
 
     <div id="new-notification" v-if="newNotification">{{ newNotification }}</div>
 
     <ul v-if="notifications" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <router-link
-        :to="notification['link']"
-        v-for="notification in notifications"
-        :key="notification['id']"
-      >
-        <span v-if="notification['upvote_id']" class="material-icons" style="color: #0984e3"
-          >thumb_up</span
-        >
-        <span v-if="notification['follow_id']" class="material-icons" style="color: pink"
-          >favorite</span
-        >
-        <span v-if="notification['comment_id']" class="material-icons" style="color: #6ab04c"
-          >question_answer</span
-        >
-        <span
-          ><strong>{{ notification['name_in_forum'] }}</strong> {{ notification['message'] }}</span
-        >
+      <router-link :to="notification['link']" v-for="notification in notifications" :key="notification['id']">
+        <span v-if="notification['upvote_id']" class="material-icons" style="color: #0984e3">thumb_up</span>
+        <span v-if="notification['follow_id']" class="material-icons" style="color: pink">favorite</span>
+        <span v-if="notification['comment_id']" class="material-icons" style="color: #6ab04c">question_answer</span>
+        <span><strong>{{ notification['name_in_forum'] }}</strong> {{ notification['message'] }}</span>
       </router-link>
 
       <infinite-loading @infinite="infiniteHandler"></infinite-loading>
@@ -32,13 +20,13 @@
 </template>
 
 <script>
-import { notificationApi } from '../../infrastructure/apiServices'
-import InfiniteLoading from 'v3-infinite-loading'
+import {notificationApi} from "../../infrastructure/apiServices";
+import InfiniteLoading from "vue-infinite-loading";
 
 export default {
-  name: 'Notification',
+  name: "Notification",
   components: {
-    InfiniteLoading
+    InfiniteLoading,
   },
 
   data() {
@@ -50,54 +38,50 @@ export default {
   },
 
   created() {
-    const channel = window.pusher.subscribe(
-      'private-notification_user.' + JSON.parse(localStorage.getItem('user_info'))['id']
-    )
+    const channel = window.pusher.subscribe('private-notification_user.' + JSON.parse(localStorage.getItem('user_info'))['id']);
     channel.bind('NotificationUpdate', (data) => {
-      console.log(data)
+      console.log(data);
       this.notifications.unshift(this.parseNotification(data['notification']))
-      this.newNotification++
-    })
+      this.newNotification++;
+    });
 
-    notificationApi
-      .countUnread()
-      .then(({ data }) => {
-        this.newNotification = data['unread_notifications']
+    notificationApi.countUnread()
+      .then(({data}) => {
+          this.newNotification = data['unread_notifications'];
       })
-      .catch((err) => console.log(err))
+      .catch(err => console.log(err));
   },
 
   methods: {
     getNotifications() {
-      this.page = 1
-      this.notifications = []
-      this.markAsRead()
-      this.infiniteHandler()
+      this.page = 1;
+      this.notifications = [];
+      this.markAsRead();
+      this.infiniteHandler();
     },
 
     infiniteHandler($state) {
       notificationApi.getNotifications(this.page).then(({ data }) => {
-        console.log(data.data)
+        console.log(data.data);
         if (data.data.length) {
-          this.page += 1
-          this.notifications.push(...data['data'].map(this.parseNotification))
-          $state.loaded()
+          this.page += 1;
+          this.notifications.push(...data['data'].map(this.parseNotification));
+          $state.loaded();
         } else {
-          $state.complete()
+          $state.complete();
         }
-      })
+      });
     },
 
     markAsRead() {
-      notificationApi
-        .markAsRead()
-        .then(() => (this.newNotification = 0))
-        .catch((err) => console.log(err))
+      notificationApi.markAsRead()
+        .then(() => this.newNotification = 0)
+        .catch(err => console.log(err));
     },
 
     parseNotification(notification) {
-      console.log(notification)
-      let formattedNotification = { ...notification }
+      console.log(notification);
+      let formattedNotification = {...notification};
       if (notification['follow_id'] !== null) {
         formattedNotification.message = 'started following you.'
         formattedNotification.link = `/profile/${notification['record']['user_id']}`
@@ -109,13 +93,14 @@ export default {
         formattedNotification.link = `/post/${notification['record']['post_id']}`
       }
       return formattedNotification
-    }
+    },
+
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import 'src/assets/sass/style';
+@import '../../assets/sass/style.scss';
 #notifications {
   width: 4rem;
   position: relative;

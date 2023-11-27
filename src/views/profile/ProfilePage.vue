@@ -1,46 +1,34 @@
 <template>
-  <NavBar bgColor="white" />
-  <SideBar bgColor="white" />
+  <NavBar bgColor="white"/>
+  <!-- <SideBar bgColor="white"/> -->
 
   <main class="container w-100">
     <div class="row w-100 justify-content-center">
       <div class="col-lg-4 col-md-5">
         <div id="profile">
-          <div>
-            <input
-              v-if="profileOwner"
-              type="file"
-              id="change-avatar"
-              ref="inputAvt"
-              class="input-avatar"
-              @change="handleUpLoadImage($event)"
-            />
-            <label v-if="profileOwner" for="change-avatar">
-              <img
-                v-if="profileOwner"
-                class="camera"
-                src="../../assets/images/camera.png"
-                style="transform: translate(115%, 465%); width: 9%; cursor: pointer"
-              />
-            </label>
-            <figure>
-              <img class="avt" alt="avatar" :src="avtURL" />
-            </figure>
-          </div>
-          <div v-if="changingMode" id="buttons" class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-info btn-save" @click="changeAvt()">Save</button>
-            <button class="btn btn-danger btn-cancel" @click="cancelChange()">Cancel</button>
-          </div>
-          <FollowArea :profileOwner="profileOwner" />
-          <StaticProfile v-if="showEditForm" :profileOwner="profileOwner" />
-          <EditProfileForm v-else />
+            <div>
+              <input v-if="profileOwner" type="file" id="change-avatar" ref="inputAvt" class="input-avatar" @change="handleUpLoadImage($event)"/>
+              <label v-if="profileOwner" for="change-avatar">
+                <img v-if="profileOwner" class="camera" src="../../assets/images/camera.png" style="transform: translate(115%, 465%); width: 9%; cursor: pointer;">
+              </label>
+              <figure>
+                <img class="avt" alt="avatar" :src="avtURL">
+              </figure>
+            </div>
+            <div v-if="changingMode" id="buttons" class="d-flex justify-content-center">
+              <button type="submit" class="btn btn-info btn-save" @click="changeAvt()">Save</button>
+              <button class="btn btn-danger btn-cancel" @click="cancelChange()">Cancel</button>
+            </div>
+            <FollowArea :profileOwner="profileOwner"/>
+            <StaticProfile v-if="showEditForm" :profileOwner="profileOwner"/>
+            <EditProfileForm v-else/>
         </div>
       </div>
 
       <div class="col-lg-8 col-md-7 container newsfeed">
         <div class="row justify-content-center" style="margin-top: 2em">
           <div class="col-10">
-            <Posts :typePosts="{ name: 'ProfilePage', userID }"></Posts>
+            <Posts :typePosts="{name: 'ProfilePage', userID}"></Posts>
           </div>
         </div>
       </div>
@@ -49,18 +37,21 @@
 </template>
 
 <script>
-import NavBar from '../../components/layout/NavBar.vue'
-import SideBar from '../../components/layout/SideBar.vue'
-import Posts from '../../components/newsfeed/Posts.vue'
-import { mapState } from 'vuex'
-import StaticProfile from './StaticProfile.vue'
-import EditProfileForm from './EditProfileForm.vue'
-import FollowArea from './FollowArea.vue'
-import { avatarURL, changeAvatar } from '../../infrastructure/apiServices'
+import NavBar from "../../components/layout/NavBar.vue";
+import SideBar from "../../components/layout/SideBar.vue";
+import Posts from "../../components/newsfeed/Posts.vue";
+import {mapState} from 'vuex';
+import StaticProfile from "./StaticProfile.vue";
+import EditProfileForm from "./EditProfileForm.vue";
+import FollowArea from "./FollowArea.vue";
+import {avatarURL, changeAvatar} from "../../infrastructure/apiServices";
 
 export default {
-  name: 'ProfilePage',
-  components: { FollowArea, EditProfileForm, StaticProfile, SideBar, NavBar, Posts },
+  name: "ProfilePage",
+  components: {FollowArea, EditProfileForm, StaticProfile, 
+    SideBar,
+    NavBar, 
+    Posts},
 
   data() {
     return {
@@ -74,10 +65,8 @@ export default {
   },
   computed: {
     ...mapState(['showEditForm', 'userInfo']),
-    avtURL: function () {
-      return this.$data.avatarLocal === null
-        ? avatarURL(this.userInfo['avatar_id'])
-        : this.$data.avatarLocal
+    avtURL: function() {
+      return (this.$data.avatarLocal === null ? avatarURL(this.userInfo['avatar_id']) : this.$data.avatarLocal)
     }
   },
 
@@ -117,15 +106,15 @@ export default {
       formData.append('avatar', this.$data.imgFile)
 
       changeAvatar(formData)
-        .then(({ data }) => {
-          console.log(data)
-          localStorage.setItem('user_info', JSON.stringify(data['data']))
-          location.reload()
-        })
-        .catch((err) => {
-          console.log(err)
-          alert('Change avatar failed. Try again!')
-        })
+      .then(({data}) => {
+        console.log(data)
+        localStorage.setItem('user_info', JSON.stringify(data['data']))
+        location.reload()
+      })
+      .catch(err => {
+        console.log(err)
+        alert('Change avatar failed. Try again!')
+      })
     }
   }
 }
@@ -152,8 +141,7 @@ main {
   min-height: 50vh;
   margin-top: 3.5rem;
   border-radius: 2rem;
-  background-image: linear-gradient(45deg, rgba(45, 52, 54, 0.7), rgba(248, 255, 255, 0.8)),
-    url('../../assets/images/profile_background.jpg');
+  background-image: linear-gradient(45deg, rgba(45, 52, 54, 0.7),rgba(248, 255, 255,0.8)), url('../../assets/images/profile_background.jpg');
   background-size: cover;
   img {
     display: block;
@@ -164,34 +152,26 @@ main {
   }
 }
 
-@media (max-width: 2000px) {
-  #profile-static,
-  #follow-area,
-  #edit-form {
+@media (max-width: 2000px){
+  #profile-static, #follow-area, #edit-form {
     width: 30rem;
   }
 }
 
-@media (max-width: 1260px) {
-  #profile-static,
-  #follow-area,
-  #edit-form {
+@media (max-width: 1260px){
+  #profile-static, #follow-area, #edit-form {
     width: 100%;
   }
 }
 
-@media (max-width: 767px) {
-  #profile-static,
-  #follow-area,
-  #edit-form {
+@media (max-width: 767px){
+  #profile-static, #follow-area, #edit-form {
     width: 30rem;
   }
 }
 
-@media (max-width: 576px) {
-  #profile-static,
-  #follow-area,
-  #edit-form {
+@media (max-width: 576px){
+  #profile-static, #follow-area, #edit-form {
     width: 100%;
   }
 }

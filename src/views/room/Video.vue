@@ -1,27 +1,25 @@
 <template>
   <video autoplay :muted="mutedSound" loop>
-    <source v-if="roomName" :src="videoSrc" type="video/mp4">
+    <source v-if="roomName" :src="videoSrc" type="video/mp4" />
   </video>
-
 </template>
 
 <script>
-import {baseStorageAPI} from "../../env";
-
 export default {
-  name: "Video",
+  name: 'Video',
   props: ['mutedSound', 'roomName'],
 
   computed: {
     videoSrc() {
-      return `${baseStorageAPI}/videos/${this.roomName}.mp4`
-    }
+      return `https://lofico.nyc3.cdn.digitaloceanspaces.com/scenes/inthewoods/outside_sun.mp4`
+    },
   },
   mounted() {
-    let video = document.querySelector('video');
-    video.onloadedmetadata = function() {
-      this.currentTime = Math.floor(Date.now() / 1000) % Math.floor(this.duration);
-    };
+    let video = document.querySelector('video')
+    video.onloadedmetadata = function () {
+      this.currentTime =
+        Math.floor(Date.now() / 1000) % Math.floor(this.duration)
+    }
   },
 }
 </script>
@@ -42,11 +40,10 @@ video {
   }
 }
 
-@media(min-aspect-ratio: 16/9) {
+@media (min-aspect-ratio: 16/9) {
   video {
     width: 100%;
     height: auto;
-
   }
 }
 </style>

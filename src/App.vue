@@ -1,11 +1,12 @@
+<script></script>
+
 <template>
   <router-view :key="$route.path"></router-view>
 </template>
 
-<script></script>
-
 <style lang="scss">
-@import 'src/assets/sass/style.scss';
+@import '../src/assets/sass/style.scss';
+
 html {
   font-size: 10px;
   font-family: 'Open Sans', sans-serif;
@@ -19,21 +20,24 @@ body {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(assets/fonts/material-icons/MaterialIcons-Regular.ttf) format('truetype');
+  src: url(assets/fonts/material-icons/MaterialIcons-Regular.ttf)
+    format('truetype');
 }
 
 @font-face {
   font-family: 'Material Icons Outlined';
   font-style: normal;
   font-weight: 400;
-  src: url(assets/fonts/material-icons/MaterialIconsOutlined-Regular.otf) format('opentype');
+  src: url(assets/fonts/material-icons/MaterialIconsOutlined-Regular.otf)
+    format('opentype');
 }
 
 .material-icons,
 .material-icons-outlined {
   font-weight: normal;
   font-style: normal;
-  font-size: 24px; /* Preferred icon size */
+  font-size: 24px;
+  /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -68,8 +72,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 
-  display: flex;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-wrap: wrap;
 }
 
 #nav {

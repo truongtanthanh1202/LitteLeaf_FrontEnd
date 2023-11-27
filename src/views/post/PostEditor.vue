@@ -1,95 +1,91 @@
 <template>
-  <NavBar />
-  <SideBar />
+  <NavBar/>
+  <!-- <SideBar/> -->
   <main>
-    <input
-      class="form-control"
-      id="post-title"
-      type="text"
-      placeholder="Caption"
-      v-model="title"
-      required
-    />
+    <input class="form-control" id="post-title" type="text" placeholder="Caption" v-model="title" required>
     <v-md-editor v-model="content"></v-md-editor>
-    <button v-if="updateMode" id="btn-update" class="btn btn-primary" @click="updatePost">
-      Update Post
-    </button>
+    <button v-if="updateMode" id="btn-update" class="btn btn-primary" @click="updatePost">Update Post</button>
     <button v-else id="btn-save" class="btn btn-success" @click="createNewPost">Save Post</button>
     <button class="btn btn-danger" @click="cancel">Cancel</button>
   </main>
+
 </template>
 
 <script>
-import NavBar from '../../components/layout/NavBar.vue'
-import SideBar from '../../components/layout/SideBar.vue'
+
+import NavBar from "../../components/layout/NavBar.vue";
+import SideBar from "../../components/layout/SideBar.vue";
 // eslint-disable-next-line no-unused-vars
-import { getAPost, updatePostContent, upPost } from '../../infrastructure/apiServices.js'
+import {getAPost, updatePostContent, upPost} from "../../infrastructure/apiServices";
 export default {
-  name: 'PostEditor',
-  components: { SideBar, NavBar },
+  name: "PostEditor",
+  components: {
+    SideBar, 
+    NavBar
+  },
   data() {
     return {
       updateMode: false,
       title: null,
       postId: null,
       content: ''
-    }
+    };
   },
 
   created() {
-    this.postId = this.$route.params.id
+    this.postId = this.$route.params.id;
 
     if (this.postId) {
-      this.updateMode = true
+      this.updateMode = true;
 
       getAPost(this.postId)
-        .then(({ data }) => {
-          if (data['data']['owner']['id'] !== JSON.parse(localStorage.getItem('user_info'))['id']) {
-            this.$router.push('/')
-            alert("You don't have permission to edit this post")
-          }
-          this.title = data['data']['title']
-          this.content = data['data']['content']
+        .then(({data}) => {
+            if (data['data']['owner']['id'] !== JSON.parse(localStorage.getItem('user_info'))['id']) {
+              this.$router.push('/');
+              alert("You don't have permission to edit this post");
+            }
+            this.title = data['data']['title'];
+            this.content = data['data']['content'];
         })
-        .catch((err) => alert(err.response.data.message))
+        .catch(err => alert(err.response.data.message))
     }
   },
 
   methods: {
     createNewPost(e) {
-      e.preventDefault()
+      e.preventDefault();
 
       if (!this.title || !this.content) {
-        alert('Post content and title are required')
-        return
+        alert('Post content and title are required');
+        return;
       }
 
-      let newPost = new FormData()
-      newPost.append('content', this.content)
-      newPost.append('title', this.title)
+      let newPost = new FormData();
+      newPost.append('content', this.content);
+      newPost.append('title', this.title);
 
       upPost(newPost)
-        .then(() => {
-          this.$router.push('/')
-        })
-        .catch((err) => {
-          alert(err.response.data.message)
-        })
+          .then(() => {
+            this.$router.push('/');
+          })
+          .catch(err => {
+            alert(err.response.data.message);
+          })
     },
 
     updatePost(e) {
-      e.preventDefault()
-      updatePostContent(this.postId, { title: this.title, content: this.content })
+      e.preventDefault();
+      updatePostContent(this.postId, {'title': this.title, 'content': this.content})
         .then(() => {
-          this.$router.go()
+            this.$router.go();
         })
-        .catch((err) => alert(err.response.data.message))
+        .catch(err => alert(err.response.data.message))
     },
 
     cancel() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     }
-  }
+  },
 }
 </script>
 

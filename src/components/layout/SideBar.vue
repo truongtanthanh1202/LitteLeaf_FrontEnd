@@ -1,68 +1,121 @@
 <template>
-  <div id="sidebar-wrapper">
-    <aside :style="{ background: bgColor }" v-if="showSidebar">
-      <RoomButton roomId="1" roomName="beach" />
-      <RoomButton roomId="2" roomName="city" />
-      <RoomButton roomId="3" roomName="fantasy" />
-      <RoomButton roomId="4" roomName="library" />
-      <RoomButton roomId="5" roomName="lofi" />
-      <RoomButton roomId="6" roomName="natural" />
-      <RoomButton roomId="7" roomName="piano" />
-      <RoomButton roomId="8" roomName="rain" />
-      <RoomButton roomId="9" roomName="live-study" />
-    </aside>
+  <div v-if="showSidebar" id="sidebar-wrapper" :style="{ background: bgColor }">
+    <router-link class="room" to="/room/1">
+      <img
+        class="room-img"
+        src="../../assets/images/room/beach.jpg"
+        alt="room-img"
+      />
+      <p class="room-name">Beach</p>
+    </router-link>
+    <router-link class="room" to="/room/2">
+      <img
+        class="room-img"
+        src="../../assets/images/room/city.jpg"
+        alt="room-img"
+      />
+      <p class="room-name">City</p>
+    </router-link>
+    <router-link class="room" to="/room/3">
+      <img
+        class="room-img"
+        src="../../assets/images/room/fantasy.jpg"
+        alt="room-img"
+      />
+      <p class="room-name">Fantasy</p>
+    </router-link>
+    <router-link class="room" to="/room/4">
+      <img
+        class="room-img"
+        src="../../assets/images/room/library.jpg"
+        alt="room-img"
+      />
+      <p class="room-name">Library</p>
+    </router-link>
+    <router-link class="room" to="/room/5">
+      <img
+        class="room-img"
+        src="../../assets/images/room/lofi.jpg"
+        alt="room-img"
+      />
+      <p class="room-name">Lofi</p>
+    </router-link>
+    <router-link class="room" to="/room/6">
+      <img
+        class="room-img"
+        src="../../assets/images/room/natural.jpg"
+        alt="room-img"
+      />
+      <p class="room-name">Natural</p>
+    </router-link>
+    <router-link class="room" to="/room/7">
+      <img
+        class="room-img"
+        src="../../assets/images/room/piano.jpg"
+        alt="room-img"
+      />
+      <p class="room-name">Piano</p>
+    </router-link>
+    <router-link class="room" to="/room/8 ">
+      <img
+        class="room-img"
+        src="../../assets/images/room/rain.jpg"
+        alt="room-img"
+      />
+      <p class="room-name">Rain</p>
+    </router-link>
+    <router-link class="room" to="/room/9">
+      <img
+        class="room-img"
+        src="../../assets/images/room/live-study.jpg"
+        alt="room-img"
+      />
+      <p class="room-name">Live Study</p>
+    </router-link>
   </div>
 </template>
 
 <script>
-import RoomButton from './RoomButton.vue'
 import { mapState } from 'vuex'
 export default {
   name: 'SideBar',
-  components: { RoomButton },
+  computed: mapState(['showSidebar']),
   props: ['bgColor'],
-  computed: mapState(['showSidebar'])
 }
 </script>
 
 <style lang="scss" scoped>
-@import 'src/assets/sass/style';
-@media (max-width: 600px) {
-  #sidebar-wrapper {
-    display: none;
-  }
+#sidebar-wrapper {
+  cursor: pointer;
+  background-color: #fff;
+  backdrop-filter: blur(10px);
+  width: 7rem;
+  position: fixed;
+  text-align: center;
+  height: 100%;
+}
+.room {
+  border: none;
+  margin-top: 1rem;
+  text-decoration: none;
+  color: black;
+  text-shadow: 1px 1px 2px #999;
+  font-weight: bold;
+  background-color: #fff;
 }
 
-#sidebar-wrapper {
-  width: $sidebar-width;
-  height: 20px;
-  //min-height: 90vh;
-  aside {
-    position: fixed;
-    text-align: center;
-    width: $sidebar-width;
-    min-height: 100%;
-    .room {
-      display: block;
-      margin-top: 1rem;
-      text-decoration: none;
-      color: black;
-      text-shadow:
-        1px 0 0 #fff,
-        -1px 0 0 #fff,
-        0 1px 0 #fff,
-        0 -1px 0 #fff,
-        0.5px 0.5px #fff,
-        -0.5px -0.5px 0 #fff,
-        0.5px -0.5px 0 #fff,
-        -0.5px 0.5px 0 #fff;
-      font-weight: bold;
-      .room-img {
-        width: 5rem;
-        border-radius: 40%;
-        margin: auto;
-      }
-    }
-  }
+.room:hover .room-img {
+  border-radius: 50%;
+}
+
+.room-img {
+  width: 5rem;
+  border-radius: 45%;
+  margin: auto;
+}
+
+.room-name {
+  text-transform: capitalize;
+  margin: 2px 0 12px 0;
 }
 </style>

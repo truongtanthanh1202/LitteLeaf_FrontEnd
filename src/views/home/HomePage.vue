@@ -1,7 +1,6 @@
 <template>
   <NavBar bgColor="white" />
-  <SideBar bgColor="white" />
-
+  <SideBar />
   <main class="container w-100 p-3">
     <div class="row justify-content-center">
       <div class="col-8 container newsfeed">
@@ -34,13 +33,14 @@ import Follow from '../../components/newsfeed/Follow.vue'
 
 export default {
   name: 'HomePage',
+
   components: {
     NavBar,
     SideBar,
     UpPost,
     Posts,
-    Follow
-  }
+    Follow,
+  },
 }
 </script>
 

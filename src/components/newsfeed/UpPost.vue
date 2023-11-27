@@ -14,10 +14,15 @@
       </div>
     </div>
 
-    <div class="row attach-file justify-content-end">
+    <div class="row attach-file justify-content-center">
       <div class="col-10 d-flex mb-3">
         <div>
-          <input type="file" id="file" class="input-file" @change="handleFileUpload($event)" />
+          <input
+            type="file"
+            id="file"
+            class="input-file"
+            @change="handleFileUpload($event)"
+          />
           <label for="file" class="up-icon" style="cursor: pointer">
             <router-link to="/post/edit" title="Post editor"
               ><span
@@ -73,7 +78,7 @@ export default {
     return {
       caption: '',
       fileName: '',
-      file: null
+      file: null,
     }
   },
   methods: {
@@ -96,8 +101,8 @@ export default {
       formData.append('file', this.file)
 
       upPost(formData)
-        .then((response) => console.log(response.data['success']))
-        .catch((err) => {
+        .then(response => console.log(response.data['success']))
+        .catch(err => {
           console.log(err)
         })
         .finally(() => {
@@ -108,13 +113,13 @@ export default {
     avtURL() {
       const avtID = JSON.parse(localStorage.getItem('user_info'))['avatar_id']
       return avatarURL(avtID)
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/sass/style';
+@import '../../assets/sass/style.scss';
 
 /* dev */
 //div * {

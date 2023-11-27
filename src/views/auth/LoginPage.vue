@@ -3,7 +3,7 @@
     <div class="container-login100">
       <div class="wrap-login100">
         <div class="login100-pic js-tilt" data-tilt>
-          <img src="../../assets/images/img-01.png" alt="IMG" />
+          <img src="../../assets/images/login_background.jpg" alt="IMG" />
         </div>
 
         <form class="login100-form validate-form" @submit="login">
@@ -28,7 +28,10 @@
             </span>
           </div>
 
-          <div class="wrap-input100 validate-input" data-validate="Password is required">
+          <div
+            class="wrap-input100 validate-input"
+            data-validate="Password is required"
+          >
             <input
               class="input100"
               v-model="loginForm.password"
@@ -44,16 +47,18 @@
             </span>
           </div>
 
+          <div class="text-center p-t-12">
+            <span class="txt1"> Forgot </span>
+            <router-link class="txt2" to="/reset-password-request">
+              Password?
+            </router-link>
+          </div>
+
           <div class="container-login100-form-btn">
             <button class="login100-form-btn">Login</button>
           </div>
 
-          <div class="text-center p-t-12">
-            <span class="txt1"> Forgot </span>
-            <router-link class="txt2" to="/reset-password-request"> Password? </router-link>
-          </div>
-
-          <div class="text-center p-t-136">
+          <div class="text-center p-t-136 sign-up-text">
             <router-link class="txt2" to="/register">
               Create your Account
               <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
@@ -74,8 +79,8 @@ export default {
     return {
       loginForm: {
         email: '',
-        password: ''
-      }
+        password: '',
+      },
     }
   },
   methods: {
@@ -83,21 +88,24 @@ export default {
       event.preventDefault()
       authApi
         .login(this.loginForm)
-        .then((response) => {
+        .then(response => {
           localStorage.setItem('jwt', response.data['jwt'])
-          localStorage.setItem('user_info', JSON.stringify(response.data['data']))
+          localStorage.setItem(
+            'user_info',
+            JSON.stringify(response.data['data'])
+          )
           location.assign('/')
         })
-        .catch((err) => {
+        .catch(err => {
           alert(err.response.data.message)
         })
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>
 /*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
+  [ FONT ]*/
 
 @font-face {
   font-family: Poppins-Regular;
@@ -120,7 +128,7 @@ export default {
 }
 
 /*//////////////////////////////////////////////////////////////////
-[ RESTYLE TAG ]*/
+  [ RESTYLE TAG ]*/
 
 * {
   margin: 0px;
@@ -153,7 +161,7 @@ a:focus {
 
 a:hover {
   text-decoration: none;
-  color: #57b846;
+  color: rgb(159, 20, 92);
 }
 
 /*---------------------------------------------*/
@@ -225,23 +233,27 @@ iframe {
 }
 
 /*//////////////////////////////////////////////////////////////////
-[ Utility ]*/
+  [ Utility ]*/
 .txt1 {
   font-family: Poppins-Regular;
   font-size: 13px;
   line-height: 1.5;
-  color: #999999;
+  color: #f0efef;
+}
+
+.sign-up-text {
+  margin-top: 20px;
 }
 
 .txt2 {
   font-family: Poppins-Regular;
   font-size: 13px;
-  line-height: 1.5;
-  color: #666666;
+  color: #fff;
+  text-decoration: underline;
 }
 
 /*//////////////////////////////////////////////////////////////////
-[ login ]*/
+  [ login ]*/
 
 .limiter {
   width: 100%;
@@ -260,54 +272,61 @@ iframe {
   justify-content: center;
   align-items: center;
 
-  background-image: linear-gradient(65deg, rgba(255, 204, 204, 0.2), rgba(223, 249, 251, 0.2)),
-    url('../../assets/images/login_background.jpg');
+  background-image: linear-gradient(
+      65deg,
+      rgba(255, 204, 204, 0.2),
+      rgba(223, 249, 251, 0.2)
+    ),
+    url('../../assets/images/gradient_background.jpg');
   background-size: cover;
 }
 
 .wrap-login100 {
-  width: 960px;
-  height: fit-content;
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 15vh 6vw 15vh 6vw;
+  height: fit-content;
+  padding: 30px 50px;
+  justify-content: center;
+  align-items: center;
+  gap: 90px;
+  border-radius: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.76);
+  background: linear-gradient(
+    117deg,
+    rgba(255, 255, 255, 0.22) -0.3%,
+    rgba(255, 255, 255, 0.2) 81.34%
+  );
+  backdrop-filter: blur(10px);
 }
 
 /*------------------------------------------------------------------
-[  ]*/
+  [  ]*/
 .login100-pic {
-  width: 316px;
+  width: 400px;
+  height: 600px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .login100-pic img {
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /*------------------------------------------------------------------
-[  ]*/
+  [  ]*/
 .login100-form {
   width: 290px;
 }
 
 .login100-form-title {
-  font-family: Poppins-Bold;
-  font-size: 24px;
-  color: #333333;
-  line-height: 1.2;
+  font-family: Poppins-Medium;
+  font-size: 36px;
+  color: #fff;
   text-align: center;
-
   width: 100%;
   display: block;
-  padding-bottom: 54px;
+  margin-bottom: 36px;
 }
 
 /*---------------------------------------------*/
@@ -315,36 +334,47 @@ iframe {
   position: relative;
   width: 100%;
   z-index: 1;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .input100 {
   font-family: Poppins-Medium;
   font-size: 15px;
   line-height: 1.5;
-  color: #666666;
+  color: #fff;
 
   display: block;
   width: 100%;
-  background: #e6e6e6;
+  border: 2px solid rgba(255, 255, 255, 0.42);
+
+  background: linear-gradient(
+    92deg,
+    rgba(255, 255, 255, 0.02) -8.99%,
+    rgba(255, 255, 255, 0.14) 101.74%
+  );
+
   height: 50px;
-  border-radius: 25px;
+  border-radius: 8px;
   padding: 0 30px 0 68px;
 }
 
+.input100::placeholder {
+  color: #fff;
+}
+
 /*------------------------------------------------------------------
-[ Focus ]*/
+  [ Focus ]*/
 .focus-input100 {
   display: block;
   position: absolute;
-  border-radius: 25px;
+  border-radius: 8px;
   bottom: 0;
   left: 0;
   z-index: -1;
   width: 100%;
   height: 100%;
   box-shadow: 0px 0px 0px 0px;
-  color: rgba(87, 184, 70, 0.8);
+  color: rgba(131, 70, 192, 0.8);
 }
 
 .input100:focus + .focus-input100 {
@@ -383,7 +413,7 @@ iframe {
   height: 100%;
   padding-left: 35px;
   pointer-events: none;
-  color: #666666;
+  color: #fff;
 
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
@@ -392,12 +422,13 @@ iframe {
 }
 
 .input100:focus + .focus-input100 + .symbol-input100 {
-  color: #57b846;
+  color: #e0f6dc;
   padding-left: 28px;
+  border-radius: 8px;
 }
 
 /*------------------------------------------------------------------
-[ Button ]*/
+  [ Button ]*/
 .container-login100-form-btn {
   width: 100%;
   display: -webkit-box;
@@ -419,8 +450,8 @@ iframe {
 
   width: 100%;
   height: 50px;
-  border-radius: 25px;
-  background: #57b846;
+  border-radius: 6px;
+  background: #000;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -441,7 +472,7 @@ iframe {
 }
 
 /*------------------------------------------------------------------
-[ Responsive ]*/
+  [ Responsive ]*/
 
 @media (max-width: 992px) {
   .wrap-login100 {
@@ -478,7 +509,7 @@ iframe {
 }
 
 /*------------------------------------------------------------------
-[ Alert validate ]*/
+  [ Alert validate ]*/
 
 .validate-input {
   position: relative;

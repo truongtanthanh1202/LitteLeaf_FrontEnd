@@ -5,20 +5,32 @@
     </div>
 
     <div id="messages">
-      <infinite-loading direction="top" @infinite="infiniteHandler"></infinite-loading>
+      <infinite-loading
+        direction="top"
+        @infinite="infiniteHandler"
+      ></infinite-loading>
 
       <div
         class="message"
         v-for="message in messages"
         :key="message['id']"
-        :class="{ 'message-logged-in-user': isLoggedInUserMessage(message['user_id']) }"
+        :class="{
+          'message-logged-in-user': isLoggedInUserMessage(message['user_id']),
+        }"
       >
         <a :href="`/profile/${message['user_id']}`"
-          ><img class="author-avatar avt" :src="avtURL(message['avatar_id'])" alt="image"
+          ><img
+            class="author-avatar avt"
+            :src="avtURL(message['avatar_id'])"
+            alt="image"
         /></a>
         <div class="author-content">
           <div class="author">{{ message['name_in_forum'] }}</div>
-          <div class="content" v-for="content in message['contents']" :key="content['id']">
+          <div
+            class="content"
+            v-for="content in message['contents']"
+            :key="content['id']"
+          >
             {{ content['content'] }}
           </div>
         </div>
@@ -40,7 +52,7 @@
 
 <script>
 import { messageApi } from '../../infrastructure/apiServices'
-import InfiniteLoading from 'v3-infinite-loading'
+import InfiniteLoading from 'vue-infinite-loading'
 import { avatarURL } from '../../infrastructure/apiServices'
 
 export default {
@@ -52,34 +64,36 @@ export default {
     return {
       messages: [],
       newMessage: {
-        content: null
+        content: null,
       },
-      page: 1
+      page: 1,
     }
   },
 
   created() {
-    const channel = window.pusher.subscribe(`private-message_room.${this.$route.params.id}`)
+    const channel = window.pusher.subscribe(
+      `private-message_room.${this.$route.params.id}`
+    )
     channel.bind('MessageUpdateEvent', ({ message: data }) => {
       data = {
         message_id: data['id'],
         user_id: data['owner']['id'],
         avatar_id: data['owner']['avatar_id'],
         name_in_forum: data['owner']['name_in_forum'],
-        content: data['content']
+        content: data['content'],
       }
       const totalMessages = this.messages.length
       if (data['user_id'] === this.messages[totalMessages - 1]['user_id']) {
         this.messages[totalMessages - 1]['contents'].push({
           id: data['message_id'],
-          content: data['content']
+          content: data['content'],
         })
       } else
         this.messages.push({
           user_id: data['user_id'],
           name_in_forum: data['name_in_forum'],
           avatar_id: data['avatar_id'],
-          contents: [{ id: data['message_id'], content: data['content'] }]
+          contents: [{ id: data['message_id'], content: data['content'] }],
         })
       setTimeout(() => {
         let objDiv = document.getElementById('messages')
@@ -90,19 +104,25 @@ export default {
 
   methods: {
     infiniteHandler($state) {
-      messageApi.getMessagesInRoom(this.$route.params.id, this.page).then(({ data }) => {
-        if (data.data.length) {
-          this.page += 1
-          this.messages.unshift(...this.mergeMessageOfSamePerson(data.data).reverse())
-          $state.loaded()
-        } else {
-          $state.complete()
-        }
-      })
+      messageApi
+        .getMessagesInRoom(this.$route.params.id, this.page)
+        .then(({ data }) => {
+          if (data.data.length) {
+            this.page += 1
+            this.messages.unshift(
+              ...this.mergeMessageOfSamePerson(data.data).reverse()
+            )
+            $state.loaded()
+          } else {
+            $state.complete()
+          }
+        })
     },
 
     isLoggedInUserMessage(userId) {
-      return userId === parseInt(JSON.parse(localStorage.getItem('user_info'))['id'])
+      return (
+        userId === parseInt(JSON.parse(localStorage.getItem('user_info'))['id'])
+      )
     },
 
     mergeMessageOfSamePerson(messages) {
@@ -112,19 +132,23 @@ export default {
           user_id: messages[i]['owner']['id'],
           name_in_forum: messages[i]['owner']['name_in_forum'],
           avatar_id: messages[i]['owner']['avatar_id'],
-          contents: []
+          contents: [],
         }
 
         let j = i
-        while (j < messages.length && messages[j]['owner']['id'] === messages[i]['owner']['id']) {
+        while (
+          j < messages.length &&
+          messages[j]['owner']['id'] === messages[i]['owner']['id']
+        ) {
           messagesOfSamePerson['contents'].push({
             id: messages[j]['owner']['id'],
-            content: messages[j]['content']
+            content: messages[j]['content'],
           })
           ++j
         }
 
-        messagesOfSamePerson['contents'] = messagesOfSamePerson['contents'].reverse()
+        messagesOfSamePerson['contents'] =
+          messagesOfSamePerson['contents'].reverse()
         mergedMessages.push(messagesOfSamePerson)
         i = j
       }
@@ -136,14 +160,14 @@ export default {
       messageApi
         .sendMessage(this.newMessage, this.$route.params.id)
         .then(() => {})
-        .catch((err) => console.log(err))
+        .catch(err => console.log(err))
       this.newMessage['content'] = ''
     },
 
     avtURL(avtID) {
       return avatarURL(avtID)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -158,6 +182,7 @@ export default {
 #chat-area {
   position: relative;
   display: flex;
+
   flex-direction: column;
   justify-content: space-between;
 
@@ -165,8 +190,9 @@ export default {
 
   border-radius: 2rem;
   background: white;
-  width: calc(100vw - #{$sidebar-width} - 6rem);
+  width: calc(100vw - #{$sidebar-width} - 2rem);
   height: calc(100vh - #{$navbar-height} - 2rem);
+  margin-left: 2rem;
   padding: 5rem 3rem 3rem;
 
   #chat-area-name {
