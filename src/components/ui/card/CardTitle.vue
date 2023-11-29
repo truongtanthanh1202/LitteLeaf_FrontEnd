@@ -14,11 +14,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <h3
+  <h1
     :class="
-      cn('text-2xl font-semibold leading-none tracking-tighter', props.class)
+      cn('text-6xl font-semibold leading-none tracking-tighter font-bold', props.class)
     "
   >
     <slot />
-  </h3>
+  </h1>
 </template>

@@ -43,8 +43,8 @@ function handlePromptClick(prompt: string) {
 <template>
   <Card>
     <CardHeader>
-      <CardTitle>Hello, I'm DennX!</CardTitle>
-      <CardDescription>Start a conversation with me by sending a message or by clicking the example prompts.</CardDescription>
+      <CardTitle>Hello, I'm Little Leaf!</CardTitle>
+      <CardDescription>Can I help you?</CardDescription>
     </CardHeader>
     <CardContent class="flex flex-col gap-4 my-3">
       <Button 

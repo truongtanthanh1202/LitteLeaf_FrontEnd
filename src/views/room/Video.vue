@@ -5,13 +5,17 @@
 </template>
 
 <script>
+import { baseStorageAPI } from '../../env'
+
 export default {
   name: 'Video',
   props: ['mutedSound', 'roomName'],
 
   computed: {
     videoSrc() {
-      return `https://lofico.nyc3.cdn.digitaloceanspaces.com/scenes/inthewoods/outside_sun.mp4`
+      console.log(`${baseStorageAPI}/videos/${this.roomName}.mp4`)
+      // return `https://lofico.nyc3.cdn.digitaloceanspaces.com/scenes/inthewoods/outside_sun.mp4`
+      return `${baseStorageAPI}/videos/${this.roomName}.mp4`
     },
   },
   mounted() {

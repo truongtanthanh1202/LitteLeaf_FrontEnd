@@ -2,7 +2,7 @@
   <Video :mutedSound="mutedSound" :roomName="roomName" />
   <PomodoroClock v-if="displayPomodoroClock" />
   <NavBar bgColor="rgba(21, 21, 21, 0.43)" />
-  <SideBar bgColor="rgba(21, 21, 21, 0.43)" />
+  <SideBar bgColor="rgba(21, 21, 21, 0.43)" textColor="#f5f3f3" />
   <ChatArea v-if="displayChatArea" :roomName="roomName" />
   <div id="control-buttons">
     <i
@@ -97,7 +97,7 @@ export default {
 
   i {
     color: white;
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   i:hover {

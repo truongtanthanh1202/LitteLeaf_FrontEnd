@@ -1,6 +1,6 @@
 <template>
   <div v-if="showSidebar" id="sidebar-wrapper" :style="{ background: bgColor }">
-    <router-link class="room" to="/room/1">
+    <router-link class="room" to="/room/1" :style="{ color: textColor }">
       <img
         class="room-img"
         src="../../assets/images/room/beach.jpg"
@@ -8,7 +8,7 @@
       />
       <p class="room-name">Beach</p>
     </router-link>
-    <router-link class="room" to="/room/2">
+    <router-link class="room" to="/room/2" :style="{ color: textColor }">
       <img
         class="room-img"
         src="../../assets/images/room/city.jpg"
@@ -16,7 +16,7 @@
       />
       <p class="room-name">City</p>
     </router-link>
-    <router-link class="room" to="/room/3">
+    <router-link class="room" to="/room/3" :style="{ color: textColor }">
       <img
         class="room-img"
         src="../../assets/images/room/fantasy.jpg"
@@ -24,7 +24,7 @@
       />
       <p class="room-name">Fantasy</p>
     </router-link>
-    <router-link class="room" to="/room/4">
+    <router-link class="room" to="/room/4" :style="{ color: textColor }">
       <img
         class="room-img"
         src="../../assets/images/room/library.jpg"
@@ -32,7 +32,7 @@
       />
       <p class="room-name">Library</p>
     </router-link>
-    <router-link class="room" to="/room/5">
+    <router-link class="room" to="/room/5" :style="{ color: textColor }">
       <img
         class="room-img"
         src="../../assets/images/room/lofi.jpg"
@@ -40,7 +40,7 @@
       />
       <p class="room-name">Lofi</p>
     </router-link>
-    <router-link class="room" to="/room/6">
+    <router-link class="room" to="/room/6" :style="{ color: textColor }">
       <img
         class="room-img"
         src="../../assets/images/room/natural.jpg"
@@ -48,15 +48,15 @@
       />
       <p class="room-name">Natural</p>
     </router-link>
-    <router-link class="room" to="/room/7">
+    <router-link class="room" to="/room/7" :style="{ color: textColor }">
       <img
         class="room-img"
         src="../../assets/images/room/piano.jpg"
         alt="room-img"
       />
-      <p class="room-name">Piano</p>
+      <p class="room-name">Cybepunk</p>
     </router-link>
-    <router-link class="room" to="/room/8 ">
+    <router-link class="room" to="/room/8" :style="{ color: textColor }">
       <img
         class="room-img"
         src="../../assets/images/room/rain.jpg"
@@ -64,7 +64,7 @@
       />
       <p class="room-name">Rain</p>
     </router-link>
-    <router-link class="room" to="/room/9">
+    <router-link class="room" to="/room/9" :style="{ color: textColor }">
       <img
         class="room-img"
         src="../../assets/images/room/live-study.jpg"
@@ -80,7 +80,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'SideBar',
   computed: mapState(['showSidebar']),
-  props: ['bgColor'],
+  props: ['bgColor', 'textColor'],
 }
 </script>
 
@@ -99,7 +99,7 @@ export default {
   margin-top: 1rem;
   text-decoration: none;
   color: black;
-  text-shadow: 1px 1px 2px #999;
+  text-shadow: 0.4px 0.4px #999;
   font-weight: bold;
   background-color: #fff;
 }
@@ -116,6 +116,7 @@ export default {
 
 .room-name {
   text-transform: capitalize;
+  font-size: 10px;
   margin: 2px 0 12px 0;
 }
 </style>
